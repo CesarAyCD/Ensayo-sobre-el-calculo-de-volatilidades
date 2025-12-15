@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Julio César López Becerra">
+
+<title>Ensayo sobre el cálculo de volatilidades</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/quarto-html/popper.min.js"></script>
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/datatables-binding-0.34.0/datatables.js"></script>
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/plotly-binding-4.11.0/plotly.js"></script>
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/typedarray-0.1/typedarray.min.js"></script>
+
+<link href="Ensayo sobre el cálculo de volatilidades_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="Ensayo sobre el cálculo de volatilidades_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#descarga-de-datos" id="toc-descarga-de-datos" class="nav-link" data-scroll-target="#descarga-de-datos">Descarga de datos</a>
+  <ul>
+  <li><a href="#métodos-de-cálculo" id="toc-métodos-de-cálculo" class="nav-link" data-scroll-target="#métodos-de-cálculo">Métodos de cálculo</a></li>
+  </ul></li>
+  <li><a href="#datos-y-gráfica-preliminar" id="toc-datos-y-gráfica-preliminar" class="nav-link" data-scroll-target="#datos-y-gráfica-preliminar">Datos y gráfica preliminar</a></li>
+  <li><a href="#volatilidad-convencional-o-fija-en-el-tiempo" id="toc-volatilidad-convencional-o-fija-en-el-tiempo" class="nav-link" data-scroll-target="#volatilidad-convencional-o-fija-en-el-tiempo">Volatilidad convencional o fija en el tiempo</a></li>
+  <li><a href="#volatilidad-con-suavizamiento-exponencial" id="toc-volatilidad-con-suavizamiento-exponencial" class="nav-link" data-scroll-target="#volatilidad-con-suavizamiento-exponencial">Volatilidad con suavizamiento exponencial</a></li>
+  <li><a href="#volatilidad-garch" id="toc-volatilidad-garch" class="nav-link" data-scroll-target="#volatilidad-garch">Volatilidad GARCH</a></li>
+  <li><a href="#resultados-de-volatilidades" id="toc-resultados-de-volatilidades" class="nav-link" data-scroll-target="#resultados-de-volatilidades">Resultados de volatilidades</a></li>
+  <li><a href="#estimación-de-ventanas-móviles" id="toc-estimación-de-ventanas-móviles" class="nav-link" data-scroll-target="#estimación-de-ventanas-móviles">Estimación de ventanas móviles</a></li>
+  <li><a href="#backtest-prueba-de-kupiec" id="toc-backtest-prueba-de-kupiec" class="nav-link" data-scroll-target="#backtest-prueba-de-kupiec">Backtest (prueba de Kupiec)</a></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">Conclusiones</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Ensayo-sobre-el-cálculo-de-volatilidades.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Ensayo sobre el cálculo de volatilidades</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Julio César López Becerra </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>La volatilidad mide la incertidumbre o riesgo asociado a la evolución del precio de un activo. Por esta razón es un concepto fundamental en el análisis financiero, ya que puede usarse para cosas como: valorar activos, gestión de riesgos, construcción de portafolios y cálculo del VaR. Suele estimarse mediante la desviación estándar de los rendimientos.</p>
+<p>La conglomeración de la volatilidad (volatility clustering) se refiere a un fenómeno señalado por primera vez en 1963. Fue descrito como: los grandes cambios son seguidos por grandes cambios, y los pequeños cambios por pequeños cambios. Frase que, adaptada más técnicamente, podríamos decir que existen periodos de alta volatilidad y periodos de baja volatilidad, a lo que a veces llamamos la “memoria del mercado”. Esto ha motivado al desarrollo de modelos que van más allá de la desviación estándar.</p>
+<p>En este documento se analizan tres enfoques para resolver este mismo problema: la volatilidad fija, volatilidad con suavizamiento exponencial y volatilidad GARCH.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liberías de yahoo finance de Github:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"https://raw.githubusercontent.com/OscarVDelatorreTorres/yahooFinance/main/datosMultiplesYahooFinance.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "All the quantitative finance functions loaded..."</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Librerías de cuantificación de riesgos en Github:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"https://raw.githubusercontent.com/OscarVDelatorreTorres/riskManagementSuiteR/refs/heads/main/riskManagementSuiteFunctions.R"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Librerías de uso general:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantmod)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rugarch)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#El método no convergía en algunas ventanas y tomaba demasiado tiempo, por lo que se usa una versión parelelizada que, además, regresa NA en esos casos.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rollGARCH_parallel <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">model =</span> <span class="st">"sGARCH"</span>, <span class="at">LLF =</span> <span class="st">"norm"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">ventana =</span> <span class="dv">250</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">arma =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">include.mean =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cores =</span> <span class="dv">15</span>) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(x)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  sig <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA_real_</span>, n)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">seq</span>(ventana, n)  </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  spec <span class="ot">&lt;-</span> rugarch<span class="sc">::</span><span class="fu">ugarchspec</span>(</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">variance.model =</span> <span class="fu">list</span>(<span class="at">model =</span> model, <span class="at">garchOrder =</span> garchOrder),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean.model     =</span> <span class="fu">list</span>(<span class="at">armaOrder =</span> arma, <span class="at">include.mean =</span> include.mean),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribution.model =</span> LLF</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  cl <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(cores)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(cl)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  parallel<span class="sc">::</span><span class="fu">clusterEvalQ</span>(cl, {</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(rugarch)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  sig_idx <span class="ot">&lt;-</span> foreach<span class="sc">::</span><span class="fu">foreach</span>(<span class="at">t =</span> idx, <span class="at">.combine =</span> <span class="st">"c"</span>, <span class="at">.inorder =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                              <span class="at">.export =</span> <span class="fu">c</span>(),</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                              <span class="at">.packages =</span> <span class="fu">c</span>(<span class="st">"rugarch"</span>)) <span class="sc">%dopar%</span> {</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    win <span class="ot">&lt;-</span> x[(t <span class="sc">-</span> ventana <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span>t]</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>({</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>      fit <span class="ot">&lt;-</span> rugarch<span class="sc">::</span><span class="fu">ugarchfit</span>(</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">spec =</span> spec,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> win,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">solver =</span> <span class="st">"hybrid"</span>,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">fit.control =</span> <span class="fu">list</span>(<span class="at">eval.se =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.numeric</span>(<span class="fu">tail</span>(rugarch<span class="sc">::</span><span class="fu">sigma</span>(fit), <span class="dv">1</span>))</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    }, <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NA_real_</span>)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    out</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  parallel<span class="sc">::</span><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  sig[idx] <span class="ot">&lt;-</span> sig_idx</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  sig</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="descarga-de-datos" class="level1">
+<h1>Descarga de datos</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tickerV<span class="ot">=</span><span class="fu">c</span>(<span class="st">"QQQ"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hastaD<span class="ot">=</span> <span class="fu">as.Date</span>(<span class="st">"2024-11-20"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>deD <span class="ot">=</span> <span class="fu">as.Date</span>(<span class="st">"2019-11-20"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>per<span class="ot">=</span><span class="st">"D"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>paridadFX<span class="ot">=</span><span class="st">"USDMXN=X"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>convertirFX<span class="ot">=</span><span class="fu">c</span>(<span class="cn">FALSE</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>Datos<span class="ot">=</span><span class="fu">historico_multiples_precios</span>(<span class="at">tickers=</span>tickerV,<span class="at">de=</span>deD,<span class="at">hasta=</span>hastaD,<span class="at">periodicidad=</span>per,<span class="at">fxRate=</span>paridadFX,<span class="at">whichToFX=</span>convertirFX)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Extrayendo RIC 1 de 1 (QQQ), periodicidad D"
+[1] "Extrayendo QQQ..."
+[1] "QQQ extraído de Yahoo Finance..."
+[1] "Se terminó de extraer y procesar un total de 1 tickers desde las BD de Yahoo Finance..."
+[1] "Tickers procesados: QQQ"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>precios<span class="ot">=</span>Datos<span class="sc">$</span>tablaPrecios</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>rendimientos<span class="ot">=</span>Datos<span class="sc">$</span>tablaRendimientosCont</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>rendimientos_decimal <span class="ot">&lt;-</span> rendimientos<span class="sc">$</span>QQQ<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>monto <span class="ot">&lt;-</span> <span class="dv">500000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="métodos-de-cálculo" class="level2">
+<h2 class="anchored" data-anchor-id="métodos-de-cálculo">Métodos de cálculo</h2>
+<p>En esta sección se realizará un análisis de volatilidades para el EFT QQQ en pesos mexicanos, con una inversión de $500,000 MXN para el periodo de 2023/11/20 a 2024/11/20.</p>
+<p>Se estimarán las siguientes volatilidades:<br>
+- Fija<br>
+- EWMA con <span class="math inline">\(\lambda = 0.95\)</span><br>
+- EWMA con <span class="math inline">\(\lambda = 0.98\)</span><br>
+- GARCH(1,1) con distribución normal<br>
+- GARCH(1,1) con distribución t-student<br>
+- GARCH(1,1) con distribución GED<br>
+- GJR-GARCH(1,1) con distribución normal<br>
+- GJR-GARCH(1,1) con distribución t-student<br>
+- GJR-GARCH(1,1) con distribución GED<br>
+</p>
+<p>Se determinará el mejor ajuste por medio del AIC, y posteriormente se calcularán y graficarán estas volatilidades en una ventana móvil de 250 días desde el 2019/11/20 para observar el conglomerado de volatilidades.</p>
+</section>
+</section>
+<section id="datos-y-gráfica-preliminar" class="level1">
+<h1>Datos y gráfica preliminar</h1>
+<p>Tabla de precios diarios</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>precios_250 <span class="ot">&lt;-</span> <span class="fu">tail</span>(precios, <span class="dv">252</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>rendimientos_250 <span class="ot">&lt;-</span> <span class="fu">tail</span>(rendimientos_decimal, <span class="dv">252</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (knitr<span class="sc">::</span><span class="fu">is_html_output</span>()) {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(precios_250) </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(precios_250, <span class="dv">10</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-7553c0ba4b3731ef4abd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-7553c0ba4b3731ef4abd">{"x":{"filter":"none","vertical":false,"data":[["1007","1008","1009","1010","1011","1012","1013","1014","1015","1016","1017","1018","1019","1020","1021","1022","1023","1024","1025","1026","1027","1028","1029","1030","1031","1032","1033","1034","1035","1036","1037","1038","1039","1040","1041","1042","1043","1044","1045","1046","1047","1048","1049","1050","1051","1052","1053","1054","1055","1056","1057","1058","1059","1060","1061","1062","1063","1064","1065","1066","1067","1068","1069","1070","1071","1072","1073","1074","1075","1076","1077","1078","1079","1080","1081","1082","1083","1084","1085","1086","1087","1088","1089","1090","1091","1092","1093","1094","1095","1096","1097","1098","1099","1100","1101","1102","1103","1104","1105","1106","1107","1108","1109","1110","1111","1112","1113","1114","1115","1116","1117","1118","1119","1120","1121","1122","1123","1124","1125","1126","1127","1128","1129","1130","1131","1132","1133","1134","1135","1136","1137","1138","1139","1140","1141","1142","1143","1144","1145","1146","1147","1148","1149","1150","1151","1152","1153","1154","1155","1156","1157","1158","1159","1160","1161","1162","1163","1164","1165","1166","1167","1168","1169","1170","1171","1172","1173","1174","1175","1176","1177","1178","1179","1180","1181","1182","1183","1184","1185","1186","1187","1188","1189","1190","1191","1192","1193","1194","1195","1196","1197","1198","1199","1200","1201","1202","1203","1204","1205","1206","1207","1208","1209","1210","1211","1212","1213","1214","1215","1216","1217","1218","1219","1220","1221","1222","1223","1224","1225","1226","1227","1228","1229","1230","1231","1232","1233","1234","1235","1236","1237","1238","1239","1240","1241","1242","1243","1244","1245","1246","1247","1248","1249","1250","1251","1252","1253","1254","1255","1256","1257","1258"],["2023-11-20","2023-11-21","2023-11-22","2023-11-24","2023-11-27","2023-11-28","2023-11-29","2023-11-30","2023-12-01","2023-12-04","2023-12-05","2023-12-06","2023-12-07","2023-12-08","2023-12-11","2023-12-12","2023-12-13","2023-12-14","2023-12-15","2023-12-18","2023-12-19","2023-12-20","2023-12-21","2023-12-22","2023-12-26","2023-12-27","2023-12-28","2023-12-29","2024-01-02","2024-01-03","2024-01-04","2024-01-05","2024-01-08","2024-01-09","2024-01-10","2024-01-11","2024-01-12","2024-01-16","2024-01-17","2024-01-18","2024-01-19","2024-01-22","2024-01-23","2024-01-24","2024-01-25","2024-01-26","2024-01-29","2024-01-30","2024-01-31","2024-02-01","2024-02-02","2024-02-05","2024-02-06","2024-02-07","2024-02-08","2024-02-09","2024-02-12","2024-02-13","2024-02-14","2024-02-15","2024-02-16","2024-02-20","2024-02-21","2024-02-22","2024-02-23","2024-02-26","2024-02-27","2024-02-28","2024-02-29","2024-03-01","2024-03-04","2024-03-05","2024-03-06","2024-03-07","2024-03-08","2024-03-11","2024-03-12","2024-03-13","2024-03-14","2024-03-15","2024-03-18","2024-03-19","2024-03-20","2024-03-21","2024-03-22","2024-03-25","2024-03-26","2024-03-27","2024-03-28","2024-04-01","2024-04-02","2024-04-03","2024-04-04","2024-04-05","2024-04-08","2024-04-09","2024-04-10","2024-04-11","2024-04-12","2024-04-15","2024-04-16","2024-04-17","2024-04-18","2024-04-19","2024-04-22","2024-04-23","2024-04-24","2024-04-25","2024-04-26","2024-04-29","2024-04-30","2024-05-01","2024-05-02","2024-05-03","2024-05-06","2024-05-07","2024-05-08","2024-05-09","2024-05-10","2024-05-13","2024-05-14","2024-05-15","2024-05-16","2024-05-17","2024-05-20","2024-05-21","2024-05-22","2024-05-23","2024-05-24","2024-05-28","2024-05-29","2024-05-30","2024-05-31","2024-06-03","2024-06-04","2024-06-05","2024-06-06","2024-06-07","2024-06-10","2024-06-11","2024-06-12","2024-06-13","2024-06-14","2024-06-17","2024-06-18","2024-06-20","2024-06-21","2024-06-24","2024-06-25","2024-06-26","2024-06-27","2024-06-28","2024-07-01","2024-07-02","2024-07-03","2024-07-05","2024-07-08","2024-07-09","2024-07-10","2024-07-11","2024-07-12","2024-07-15","2024-07-16","2024-07-17","2024-07-18","2024-07-19","2024-07-22","2024-07-23","2024-07-24","2024-07-25","2024-07-26","2024-07-29","2024-07-30","2024-07-31","2024-08-01","2024-08-02","2024-08-05","2024-08-06","2024-08-07","2024-08-08","2024-08-09","2024-08-12","2024-08-13","2024-08-14","2024-08-15","2024-08-16","2024-08-19","2024-08-20","2024-08-21","2024-08-22","2024-08-23","2024-08-26","2024-08-27","2024-08-28","2024-08-29","2024-08-30","2024-09-03","2024-09-04","2024-09-05","2024-09-06","2024-09-09","2024-09-10","2024-09-11","2024-09-12","2024-09-13","2024-09-16","2024-09-17","2024-09-18","2024-09-19","2024-09-20","2024-09-23","2024-09-24","2024-09-25","2024-09-26","2024-09-27","2024-09-30","2024-10-01","2024-10-02","2024-10-03","2024-10-04","2024-10-07","2024-10-08","2024-10-09","2024-10-10","2024-10-11","2024-10-14","2024-10-15","2024-10-16","2024-10-17","2024-10-18","2024-10-21","2024-10-22","2024-10-23","2024-10-24","2024-10-25","2024-10-28","2024-10-29","2024-10-30","2024-10-31","2024-11-01","2024-11-04","2024-11-05","2024-11-06","2024-11-07","2024-11-08","2024-11-11","2024-11-12","2024-11-13","2024-11-14","2024-11-15","2024-11-18","2024-11-19"],[385.9951782226562,383.7527465820312,385.3234558105469,384.7801208496094,384.4442138671875,385.4518737792969,385.0764465332031,384.1083679199219,385.2048950195312,381.6288452148438,382.5870666503906,380.3742370605469,385.6889038085938,387.4077758789062,390.7171630859375,393.828857421875,398.8373107910156,398.4915466308594,400.4178466796875,402.9399719238281,404.998779296875,398.9806518554688,403.6229858398438,404.2267456054688,406.7013244628906,407.5292663574219,407.3311767578125,405.568359375,398.7052307128906,394.4862976074219,392.4561157226562,392.9216003417969,401.04248046875,401.8347473144531,404.5582275390625,405.4000244140625,405.6080017089844,405.568359375,403.2806091308594,409.0048828125,417.1158447265625,417.6605529785156,419.3937072753906,421.7209777832031,422.2359924316406,419.7204284667969,424.0186462402344,421.1960754394531,412.9465026855469,417.8090515136719,424.8703308105469,424.3157348632812,423.4640197753906,427.8215637207031,428.6138000488281,432.8327331542969,431.1392211914062,424.4147338867188,429.0396728515625,430.3172302246094,426.415283203125,423.1966247558594,421.5031127929688,433.8428955078125,432.5653381347656,432.3375549316406,433.3774108886719,431.0698547363281,434.7639465332031,441.3100891113281,439.7354736328125,431.8423461914062,434.5559692382812,441.1516723632812,434.7837219238281,433.1694641113281,439.3789367675781,436.0018005371094,434.9025573730469,429.7329711914062,433.8315124511719,434.9123840332031,440.0690307617188,442.1514892578125,442.6572265625,441.05078125,439.6227722167969,441.1201477050781,440.3070068359375,441.2391967773438,437.4312133789062,438.4129333496094,431.7092895507812,436.7965393066406,436.9254455566406,438.5418395996094,434.7140197753906,441.6556701660156,434.6148376464844,427.4650268554688,427.5046997070312,422.2885131835938,419.8787841796875,411.1918640136719,415.3271179199219,421.5249633789062,422.9529724121094,420.9101257324219,427.405517578125,429.1409301757812,421.0489501953125,418.0045471191406,423.3396606445312,431.8481140136719,436.5783386230469,436.6477966308594,436.3899536132812,437.3419189453125,438.373291015625,439.3847045898438,442.2109985351562,449.1228332519531,448.2105407714844,447.992431640625,451.1160888671875,451.9986572265625,451.909423828125,449.8765258789062,454.1307373046875,455.8462829589844,452.6333312988281,447.7841186523438,446.9511108398438,449.3509521484375,450.5806274414062,459.6641845703125,459.5055236816406,459.0989685058594,460.953369140625,464.1167907714844,470.1956787109375,472.7442016601562,475.1935729980469,481.0146484375,481.1634216308594,477.45458984375,476.1753234863281,470.7542724609375,476.1376342773438,477.1208801269531,478.3525085449219,475.8694152832031,478.6604309082031,483.6861572265625,487.71875,492.8041076660156,493.9761047363281,494.4032287597656,499.5581359863281,488.6027526855469,491.4732055664062,492.7941589355469,492.98291015625,478.5114440917969,476.2468872070312,472.0256042480469,479.0577392578125,477.3692321777344,460.245849609375,455.17041015625,459.8385925292969,460.7623291015625,454.4353942871094,467.8838500976562,456.5509948730469,445.7148132324219,432.4252624511719,436.5571594238281,431.8292846679688,445.0393981933594,447.3635559082031,448.3269958496094,459.4512329101562,459.6002197265625,471.2112121582031,471.8170166015625,478.0148010253906,477.0116271972656,479.2365112304688,471.6382751464844,476.75341796875,472.1249389648438,473.5353393554688,468.1618957519531,467.4765930175781,473.0486450195312,458.6864318847656,457.4945373535156,457.9216918945312,445.6551818847656,451.3861694335938,455.5577697753906,465.4503784179688,470.019287109375,472.1249389648438,470.0391540527344,470.2874145507812,468.2513122558594,480.0906677246094,479.1769104003906,480.4470825195312,482.7645263671875,483.2120971679688,486.842529296875,484.1371459960938,485.4500427246094,478.6865539550781,479.3629150390625,479.0048217773438,484.7041015625,479.5121154785156,486.6734008789062,490.5027770996094,489.9457397460938,490.7116394042969,494.8294372558594,488.2151489257812,488.2748107910156,488.6130065917969,491.815673828125,492.7606201171875,493.2977294921875,485.7384948730469,489.67724609375,492.6611328125,492.7406921386719,497.4751892089844,493.7154541015625,481.252685546875,484.8134765625,483.4010925292969,489.5678100585938,502.8660583496094,510.7832641601562,511.3800964355469,511.0818176269531,510.1566772460938,509.5002746582031,505.9593811035156,493.9044189453125,497.3359069824219,500.7574157714844]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Date<\/th>\n      <th>QQQ<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Date","targets":1},{"name":"QQQ","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Gráfica de precios diarios</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(knitr<span class="sc">::</span><span class="fu">is_html_output</span>()){</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_ly</span>(precios_250, <span class="at">x =</span> <span class="sc">~</span>Date, <span class="at">y =</span> <span class="sc">~</span>QQQ, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'blue'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">'Gráfica de precios diarios de QQQ'</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'Fecha'</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'Precio (MXN)'</span>))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(precios_250,<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> QQQ)) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gráfica de precios diarios de QQQ"</span>, <span class="at">x =</span> <span class="st">"Fecha"</span>, <span class="at">y =</span> <span class="st">"Precio (MXN)"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e464dd07ceeb7c4af16c" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e464dd07ceeb7c4af16c">{"x":{"visdat":{"41a043e82d7d":["function () ","plotlyVisDat"]},"cur_data":"41a043e82d7d","attrs":{"41a043e82d7d":{"x":{},"y":{},"mode":"lines","line":{"color":"blue"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Gráfica de precios diarios de QQQ","xaxis":{"domain":[0,1],"automargin":true,"title":"Fecha"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Precio (MXN)"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2023-11-20","2023-11-21","2023-11-22","2023-11-24","2023-11-27","2023-11-28","2023-11-29","2023-11-30","2023-12-01","2023-12-04","2023-12-05","2023-12-06","2023-12-07","2023-12-08","2023-12-11","2023-12-12","2023-12-13","2023-12-14","2023-12-15","2023-12-18","2023-12-19","2023-12-20","2023-12-21","2023-12-22","2023-12-26","2023-12-27","2023-12-28","2023-12-29","2024-01-02","2024-01-03","2024-01-04","2024-01-05","2024-01-08","2024-01-09","2024-01-10","2024-01-11","2024-01-12","2024-01-16","2024-01-17","2024-01-18","2024-01-19","2024-01-22","2024-01-23","2024-01-24","2024-01-25","2024-01-26","2024-01-29","2024-01-30","2024-01-31","2024-02-01","2024-02-02","2024-02-05","2024-02-06","2024-02-07","2024-02-08","2024-02-09","2024-02-12","2024-02-13","2024-02-14","2024-02-15","2024-02-16","2024-02-20","2024-02-21","2024-02-22","2024-02-23","2024-02-26","2024-02-27","2024-02-28","2024-02-29","2024-03-01","2024-03-04","2024-03-05","2024-03-06","2024-03-07","2024-03-08","2024-03-11","2024-03-12","2024-03-13","2024-03-14","2024-03-15","2024-03-18","2024-03-19","2024-03-20","2024-03-21","2024-03-22","2024-03-25","2024-03-26","2024-03-27","2024-03-28","2024-04-01","2024-04-02","2024-04-03","2024-04-04","2024-04-05","2024-04-08","2024-04-09","2024-04-10","2024-04-11","2024-04-12","2024-04-15","2024-04-16","2024-04-17","2024-04-18","2024-04-19","2024-04-22","2024-04-23","2024-04-24","2024-04-25","2024-04-26","2024-04-29","2024-04-30","2024-05-01","2024-05-02","2024-05-03","2024-05-06","2024-05-07","2024-05-08","2024-05-09","2024-05-10","2024-05-13","2024-05-14","2024-05-15","2024-05-16","2024-05-17","2024-05-20","2024-05-21","2024-05-22","2024-05-23","2024-05-24","2024-05-28","2024-05-29","2024-05-30","2024-05-31","2024-06-03","2024-06-04","2024-06-05","2024-06-06","2024-06-07","2024-06-10","2024-06-11","2024-06-12","2024-06-13","2024-06-14","2024-06-17","2024-06-18","2024-06-20","2024-06-21","2024-06-24","2024-06-25","2024-06-26","2024-06-27","2024-06-28","2024-07-01","2024-07-02","2024-07-03","2024-07-05","2024-07-08","2024-07-09","2024-07-10","2024-07-11","2024-07-12","2024-07-15","2024-07-16","2024-07-17","2024-07-18","2024-07-19","2024-07-22","2024-07-23","2024-07-24","2024-07-25","2024-07-26","2024-07-29","2024-07-30","2024-07-31","2024-08-01","2024-08-02","2024-08-05","2024-08-06","2024-08-07","2024-08-08","2024-08-09","2024-08-12","2024-08-13","2024-08-14","2024-08-15","2024-08-16","2024-08-19","2024-08-20","2024-08-21","2024-08-22","2024-08-23","2024-08-26","2024-08-27","2024-08-28","2024-08-29","2024-08-30","2024-09-03","2024-09-04","2024-09-05","2024-09-06","2024-09-09","2024-09-10","2024-09-11","2024-09-12","2024-09-13","2024-09-16","2024-09-17","2024-09-18","2024-09-19","2024-09-20","2024-09-23","2024-09-24","2024-09-25","2024-09-26","2024-09-27","2024-09-30","2024-10-01","2024-10-02","2024-10-03","2024-10-04","2024-10-07","2024-10-08","2024-10-09","2024-10-10","2024-10-11","2024-10-14","2024-10-15","2024-10-16","2024-10-17","2024-10-18","2024-10-21","2024-10-22","2024-10-23","2024-10-24","2024-10-25","2024-10-28","2024-10-29","2024-10-30","2024-10-31","2024-11-01","2024-11-04","2024-11-05","2024-11-06","2024-11-07","2024-11-08","2024-11-11","2024-11-12","2024-11-13","2024-11-14","2024-11-15","2024-11-18","2024-11-19"],"y":[385.99517822265625,383.75274658203125,385.32345581054688,384.78012084960938,384.4442138671875,385.45187377929688,385.07644653320312,384.10836791992188,385.20489501953125,381.62884521484375,382.58706665039062,380.37423706054688,385.68890380859375,387.40777587890625,390.7171630859375,393.828857421875,398.83731079101562,398.49154663085938,400.4178466796875,402.93997192382812,404.998779296875,398.98065185546875,403.62298583984375,404.22674560546875,406.70132446289062,407.52926635742188,407.3311767578125,405.568359375,398.70523071289062,394.48629760742188,392.45611572265625,392.92160034179688,401.04248046875,401.83474731445312,404.5582275390625,405.4000244140625,405.60800170898438,405.568359375,403.28060913085938,409.0048828125,417.1158447265625,417.66055297851562,419.39370727539062,421.72097778320312,422.23599243164062,419.72042846679688,424.01864624023438,421.19607543945312,412.94650268554688,417.80905151367188,424.87033081054688,424.31573486328125,423.46401977539062,427.82156372070312,428.61380004882812,432.83273315429688,431.13922119140625,424.41473388671875,429.0396728515625,430.31723022460938,426.415283203125,423.19662475585938,421.50311279296875,433.8428955078125,432.56533813476562,432.33755493164062,433.37741088867188,431.06985473632812,434.76394653320312,441.31008911132812,439.7354736328125,431.84234619140625,434.55596923828125,441.15167236328125,434.78372192382812,433.16946411132812,439.37893676757812,436.00180053710938,434.90255737304688,429.73297119140625,433.83151245117188,434.91238403320312,440.06903076171875,442.1514892578125,442.6572265625,441.05078125,439.62277221679688,441.12014770507812,440.3070068359375,441.23919677734375,437.43121337890625,438.41293334960938,431.70928955078125,436.79653930664062,436.92544555664062,438.54183959960938,434.71401977539062,441.65567016601562,434.61483764648438,427.46502685546875,427.50469970703125,422.28851318359375,419.8787841796875,411.19186401367188,415.32711791992188,421.52496337890625,422.95297241210938,420.91012573242188,427.405517578125,429.14093017578125,421.0489501953125,418.00454711914062,423.33966064453125,431.84811401367188,436.57833862304688,436.64779663085938,436.38995361328125,437.3419189453125,438.373291015625,439.38470458984375,442.21099853515625,449.12283325195312,448.21054077148438,447.992431640625,451.1160888671875,451.9986572265625,451.909423828125,449.87652587890625,454.1307373046875,455.84628295898438,452.63333129882812,447.78411865234375,446.95111083984375,449.3509521484375,450.58062744140625,459.6641845703125,459.50552368164062,459.09896850585938,460.953369140625,464.11679077148438,470.1956787109375,472.74420166015625,475.19357299804688,481.0146484375,481.16342163085938,477.45458984375,476.17532348632812,470.7542724609375,476.13763427734375,477.12088012695312,478.35250854492188,475.86941528320312,478.66043090820312,483.6861572265625,487.71875,492.80410766601562,493.97610473632812,494.40322875976562,499.55813598632812,488.60275268554688,491.47320556640625,492.79415893554688,492.98291015625,478.51144409179688,476.24688720703125,472.02560424804688,479.0577392578125,477.36923217773438,460.245849609375,455.17041015625,459.83859252929688,460.7623291015625,454.43539428710938,467.88385009765625,456.55099487304688,445.71481323242188,432.42526245117188,436.55715942382812,431.82928466796875,445.03939819335938,447.36355590820312,448.32699584960938,459.45123291015625,459.6002197265625,471.21121215820312,471.8170166015625,478.01480102539062,477.01162719726562,479.23651123046875,471.63827514648438,476.75341796875,472.12493896484375,473.53533935546875,468.16189575195312,467.47659301757812,473.04864501953125,458.68643188476562,457.49453735351562,457.92169189453125,445.65518188476562,451.38616943359375,455.55776977539062,465.45037841796875,470.019287109375,472.12493896484375,470.03915405273438,470.28741455078125,468.25131225585938,480.09066772460938,479.17691040039062,480.44708251953125,482.7645263671875,483.21209716796875,486.842529296875,484.13714599609375,485.45004272460938,478.68655395507812,479.3629150390625,479.00482177734375,484.7041015625,479.51211547851562,486.67340087890625,490.50277709960938,489.94573974609375,490.71163940429688,494.82943725585938,488.21514892578125,488.27481079101562,488.61300659179688,491.815673828125,492.7606201171875,493.2977294921875,485.73849487304688,489.67724609375,492.6611328125,492.74069213867188,497.47518920898438,493.7154541015625,481.252685546875,484.8134765625,483.40109252929688,489.56781005859375,502.86605834960938,510.78326416015625,511.38009643554688,511.08181762695312,510.15667724609375,509.50027465820312,505.95938110351562,493.9044189453125,497.33590698242188,500.75741577148438],"mode":"lines","line":{"color":"blue"},"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="volatilidad-convencional-o-fija-en-el-tiempo" class="level1">
+<h1>Volatilidad convencional o fija en el tiempo</h1>
+<p>Se calcula como la desviación estándar de los rendimientos en un periodo determinado, suponiendo que la varianza es constante. Se basa en el supuesto de homoscedasticiad.</p>
+<p>Tiene como ventajas el ser más simple, intuitivo y fácil de implementar, además de requerir una potencia de cómputo menor. Sin embargo, ignora el conglomerado de volatilidades, por lo que suele sobreestimar el riesgo en periodos tranquilos, y subestimarlo en periodos que no lo son.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>volatilidad_fija <span class="ot">&lt;-</span> <span class="cf">function</span>(rendimientos){</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sd</span>(rendimientos)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="volatilidad-con-suavizamiento-exponencial" class="level1">
+<h1>Volatilidad con suavizamiento exponencial</h1>
+<p>Es una propuesta que mejora al método convencional permitiendo que la varianza cambie con el tiempo, asignando un peso mayor a observaciones más recientes.</p>
+<p>Este enfoque reconoce el conglomerado de volatilidades, actualizando la misma con un promedio ponderado de volatilidades y rendimientos. Sigue siendo simple, fácil de implementar y computar, por lo que presenta una gran ventaja respecto al método convencional. Sin embargo, como gran desventaja, no hay una manera objetiva de asignar el factor de suavizamiento.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>volatilidad_ewma <span class="ot">&lt;-</span> <span class="cf">function</span>(rendimientos, lambda){</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(rendimientos)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  pesos<span class="ot">=</span>lambda<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span>(n<span class="dv">-2</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  pesos_inv <span class="ot">=</span> <span class="fu">rev</span>(pesos)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  rend_cuadrado <span class="ot">=</span> rendimientos[<span class="sc">-</span><span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  varExp<span class="ot">=</span>(<span class="dv">1</span><span class="sc">-</span>lambda)<span class="sc">*</span><span class="fu">sum</span>(pesos_inv<span class="sc">*</span>rend_cuadrado)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(varExp)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="volatilidad-garch" class="level1">
+<h1>Volatilidad GARCH</h1>
+<p>Los modelos GARCH (Generalized Autoregressive Conditional Heteroskedasticity) son la formulación más sofisticada de volatilidad dinámica. La varianza depende tanto de choques pasados como de su historia.</p>
+<p>Están diseñados específicamente para capturar el conglomerado de volatilidades, lo que les permite generar pronósticos más coherentes y robustos de la volatilidad futura. Y justo esta es su principal fortaleza, se ajusta a los datos y produce las estimaciones más realistas. Sin embargo, esto viene con una gran carga computacional y complejidad para su implementación, lo que hace que un modelo incorrecto de resultados que parecen correctos, pero no están bien fundamentados.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>volatilidad_garch <span class="ot">&lt;-</span> <span class="cf">function</span>(rendimientos, <span class="at">modelo =</span> <span class="fu">c</span>(<span class="st">"sGARCH"</span>, <span class="st">"gjrGARCH"</span>), <span class="at">distribucion =</span> <span class="fu">c</span>(<span class="st">"norm"</span>, <span class="st">"std"</span>, <span class="st">"ged"</span>)){</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  spec <span class="ot">&lt;-</span> <span class="fu">ugarchspec</span>(<span class="at">variance.model =</span> <span class="fu">list</span>(<span class="at">model =</span> modelo,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">mean.model =</span> <span class="fu">list</span>(<span class="at">armaOrder =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.mean =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">distribution.model =</span> distribucion)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  garch_fit <span class="ot">&lt;-</span> <span class="fu">ugarchfit</span>(<span class="at">spec =</span> spec, <span class="at">data =</span> rendimientos)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  garch_fit</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>aic <span class="ot">&lt;-</span> <span class="cf">function</span>(garch_fit){</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">infocriteria</span>(garch_fit)[<span class="dv">1</span>]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resultados-de-volatilidades" class="level1">
+<h1>Resultados de volatilidades</h1>
+<p>Estimación del IAC mediante los distintos métodos GARCH</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sigma_fija <span class="ot">&lt;-</span> <span class="fu">volatilidad_fija</span>(rendimientos_250)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sigma_ewma_95 <span class="ot">&lt;-</span> <span class="fu">volatilidad_ewma</span>(rendimientos_250, <span class="at">lambda =</span> <span class="fl">0.95</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sigma_ewma_98 <span class="ot">&lt;-</span> <span class="fu">volatilidad_ewma</span>(rendimientos_250, <span class="at">lambda =</span> <span class="fl">0.98</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>modelos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"sGARCH"</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"gjrGARCH"</span>, <span class="dv">3</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>distribuciones <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"norm"</span>, <span class="st">"std"</span>, <span class="st">"ged"</span>), <span class="dv">2</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>garch_fits <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>aics_valores <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">6</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) {</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  modelo_actual <span class="ot">&lt;-</span> modelos[i]</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  distribucion_actual <span class="ot">&lt;-</span> distribuciones[i]</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">volatilidad_garch</span>(</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">rendimientos =</span> rendimientos_250, </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">modelo =</span> modelo_actual, </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribucion =</span> distribucion_actual</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  garch_fits[[i]] <span class="ot">&lt;-</span> fit </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  aics_valores[i] <span class="ot">&lt;-</span> <span class="fu">aic</span>(fit) </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>tabla_aic <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">Modelo =</span> modelos,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">Distribucion =</span> distribuciones,</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">AIC =</span> aics_valores</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(AIC)</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (knitr<span class="sc">::</span><span class="fu">is_html_output</span>()) {</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>(tabla_aic)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(tabla_aic)</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-0866a3ac056e56067ec7" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0866a3ac056e56067ec7">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6"],["gjrGARCH","sGARCH","gjrGARCH","gjrGARCH","sGARCH","sGARCH"],["ged","ged","std","norm","std","norm"],[-6.272284304018426,-6.251630301508685,-6.250961847369271,-6.240850241631977,-6.22769360195036,-6.209379228811913]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Modelo<\/th>\n      <th>Distribucion<\/th>\n      <th>AIC<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":3},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Modelo","targets":1},{"name":"Distribucion","targets":2},{"name":"AIC","targets":3}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Volatilidades estimadas por tipo de método</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tabla_volatilidades_tipo <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metodo =</span> <span class="fu">c</span>(<span class="st">"Fija"</span>, <span class="st">"EWMA (λ=0.95)"</span>, <span class="st">"EWMA (λ=0.98)"</span>, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>             <span class="fu">paste0</span>(<span class="st">"GARCH ("</span>, modelos, <span class="st">", "</span>, distribuciones, <span class="st">")"</span>)),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Volatilidad =</span> <span class="fu">c</span>(sigma_fija, sigma_ewma_95, sigma_ewma_98, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">sapply</span>(garch_fits, <span class="cf">function</span>(fit) {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sigma</span>(fit)[<span class="fu">length</span>(<span class="fu">sigma</span>(fit))]</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                  }))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(knitr<span class="sc">::</span><span class="fu">is_html_output</span>()) {</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>(tabla_volatilidades_tipo)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(tabla_volatilidades_tipo)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-6bee127ca47655f7ff42" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-6bee127ca47655f7ff42">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9"],["Fija","EWMA (λ=0.95)","EWMA (λ=0.98)","GARCH (sGARCH, norm)","GARCH (sGARCH, std)","GARCH (sGARCH, ged)","GARCH (gjrGARCH, norm)","GARCH (gjrGARCH, std)","GARCH (gjrGARCH, ged)"],[0.01098002383468384,0.0115398910295562,0.01183363893596777,0.01190952971046912,0.01225804960495792,0.01209013507762365,0.01295381063747153,0.01332276816965475,0.01330075777275332]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Metodo<\/th>\n      <th>Volatilidad<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Metodo","targets":1},{"name":"Volatilidad","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Se presenta una gráfica de las volatilidades.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(knitr<span class="sc">::</span><span class="fu">is_html_output</span>()){</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_ly</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">x=</span><span class="sc">~</span>Metodo,<span class="at">y=</span><span class="sc">~</span>Volatilidad,<span class="at">data=</span>tabla_volatilidades_tipo,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">type=</span><span class="st">"bar"</span>,<span class="at">name=</span><span class="st">"Volatilidades estimadas"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout</span>(<span class="at">title=</span><span class="st">"Volatilidades estimadas por tipo de método"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">xaxis=</span><span class="fu">list</span>(<span class="at">title=</span><span class="st">"Método"</span>),</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">yaxis=</span><span class="fu">list</span>(<span class="at">title=</span><span class="st">"Volatilidad"</span>))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#| fig-width: 7</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#| fig-height: 4</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(tabla_volatilidades_tipo, <span class="fu">aes</span>(<span class="at">x =</span> Metodo, <span class="at">y =</span> Volatilidad)) <span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Volatilidades estimadas por tipo de método"</span>, <span class="at">x =</span> <span class="st">"Método"</span>, <span class="at">y =</span> <span class="st">"Volatilidad"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-b74f9b7a11b1e2b7561f" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b74f9b7a11b1e2b7561f">{"x":{"visdat":{"41a07f33f3d":["function () ","plotlyVisDat"],"41a0499d9f0":["function () ","data"]},"cur_data":"41a0499d9f0","attrs":{"41a0499d9f0":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"bar","name":"Volatilidades estimadas","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Volatilidades estimadas por tipo de método","xaxis":{"domain":[0,1],"automargin":true,"title":"Método","type":"category","categoryorder":"array","categoryarray":["EWMA (λ=0.95)","EWMA (λ=0.98)","Fija","GARCH (gjrGARCH, ged)","GARCH (gjrGARCH, norm)","GARCH (gjrGARCH, std)","GARCH (sGARCH, ged)","GARCH (sGARCH, norm)","GARCH (sGARCH, std)"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Volatilidad"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["Fija","EWMA (λ=0.95)","EWMA (λ=0.98)","GARCH (sGARCH, norm)","GARCH (sGARCH, std)","GARCH (sGARCH, ged)","GARCH (gjrGARCH, norm)","GARCH (gjrGARCH, std)","GARCH (gjrGARCH, ged)"],"y":[0.010980023834683845,0.011539891029556203,0.011833638935967771,0.011909529710469121,0.012258049604957924,0.012090135077623645,0.012953810637471528,0.013322768169654747,0.01330075777275332],"type":"bar","name":"Volatilidades estimadas","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="estimación-de-ventanas-móviles" class="level1">
+<h1>Estimación de ventanas móviles</h1>
+<p>Ahora, se estimará la volatilidad en una ventana móvil de 250 días para cada uno de los métodos mencionados anteriormente.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ventana <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(rendimientos_decimal)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>volatilidades_movil <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Date =</span> rendimientos<span class="sc">$</span>Date,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fija =</span> <span class="fu">rollapply</span>(rendimientos_decimal, <span class="at">FUN=</span>sd, ventana, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">align =</span> <span class="st">"right"</span>),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ews95 =</span> <span class="fu">rollEWSigma</span>(rendimientos_decimal, <span class="at">lambda =</span> <span class="fl">0.95</span>, <span class="at">ventana =</span> ventana),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ews98 =</span> <span class="fu">rollEWSigma</span>(rendimientos_decimal, <span class="at">lambda =</span> <span class="fl">0.98</span>, <span class="at">ventana =</span> ventana),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">garch_norm =</span> <span class="fu">rollGARCH_parallel</span>(rendimientos_decimal, <span class="at">model =</span> <span class="st">"sGARCH"</span>, <span class="at">LLF =</span> <span class="st">"norm"</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ventana =</span> ventana, <span class="at">arma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.mean =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">garch_std =</span> <span class="fu">rollGARCH_parallel</span>(rendimientos_decimal, <span class="at">model =</span> <span class="st">"sGARCH"</span>, <span class="at">LLF =</span> <span class="st">"std"</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ventana =</span> ventana, <span class="at">arma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.mean =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">garch_ged =</span> <span class="fu">rollGARCH_parallel</span>(rendimientos_decimal, <span class="at">model =</span> <span class="st">"sGARCH"</span>, <span class="at">LLF =</span> <span class="st">"ged"</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ventana =</span> ventana, <span class="at">arma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.mean =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">gjr_norm =</span> <span class="fu">rollGARCH_parallel</span>(rendimientos_decimal, <span class="at">model =</span> <span class="st">"gjrGARCH"</span>, <span class="at">LLF =</span> <span class="st">"norm"</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ventana =</span> ventana, <span class="at">arma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.mean =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">gjr_std =</span> <span class="fu">rollGARCH_parallel</span>(rendimientos_decimal, <span class="at">model =</span> <span class="st">"gjrGARCH"</span>, <span class="at">LLF =</span> <span class="st">"std"</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ventana =</span> ventana, <span class="at">arma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.mean =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">gjr_ged =</span> <span class="fu">rollGARCH_parallel</span>(rendimientos_decimal, <span class="at">model =</span> <span class="st">"gjrGARCH"</span>, <span class="at">LLF =</span> <span class="st">"ged"</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ventana =</span> ventana, <span class="at">arma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">include.mean =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Gráfica de volatilidades en ventana móvil</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(knitr<span class="sc">::</span><span class="fu">is_html_output</span>()){</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  fig1 <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>(volatilidades_movil, <span class="at">x =</span> <span class="sc">~</span>Date) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>fija, <span class="at">name =</span> <span class="st">'Fija'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'blue'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>ews95, <span class="at">name =</span> <span class="st">'EWMA (λ=0.95)'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'red'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>ews98, <span class="at">name =</span> <span class="st">'EWMA (λ=0.98)'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'darkred'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">'1. Volatilidades: Fija y EWMA'</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'Fecha'</span>),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'Volatilidad'</span>))</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  fig2 <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>(volatilidades_movil, <span class="at">x =</span> <span class="sc">~</span>Date) <span class="sc">%&gt;%</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>garch_norm, <span class="at">name =</span> <span class="st">'GARCH (norm)'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'green'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>garch_std, <span class="at">name =</span> <span class="st">'GARCH (std)'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'darkgreen'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>garch_ged, <span class="at">name =</span> <span class="st">'GARCH (ged)'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'lightgreen'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">'2. Volatilidades: GARCH (sGARCH)'</span>,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'Fecha'</span>),</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'Volatilidad'</span>))</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  fig3 <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>(volatilidades_movil, <span class="at">x =</span> <span class="sc">~</span>Date) <span class="sc">%&gt;%</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>gjr_norm, <span class="at">name =</span> <span class="st">'GJR-GARCH (norm)'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'purple'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>gjr_std, <span class="at">name =</span> <span class="st">'GJR-GARCH (std)'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'darkorchid'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_trace</span>(<span class="at">y =</span> <span class="sc">~</span>gjr_ged, <span class="at">name =</span> <span class="st">'GJR-GARCH (ged)'</span>, <span class="at">type =</span> <span class="st">'scatter'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>, <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'violet'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout</span>(<span class="at">title =</span> <span class="st">'3. Volatilidades: GJR-GARCH (gjrGARCH)'</span>,</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'Fecha'</span>),</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">'Volatilidad'</span>))</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>           </span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(fig1)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(fig2)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(fig3)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>}<span class="cf">else</span>{</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>  volatilidades_movil_long <span class="ot">&lt;-</span> volatilidades_movil <span class="sc">%&gt;%</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span>Date, <span class="at">names_to =</span> <span class="st">"Metodo"</span>, <span class="at">values_to =</span> <span class="st">"Volatilidad"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">Grupo =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>        Metodo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"fija"</span>, <span class="st">"ews95"</span>, <span class="st">"ews98"</span>) <span class="sc">~</span> <span class="st">"1. Fija y EWMA"</span>,</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>        Metodo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"garch_norm"</span>, <span class="st">"garch_std"</span>, <span class="st">"garch_ged"</span>) <span class="sc">~</span> <span class="st">"2. GARCH (sGARCH)"</span>,</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>        Metodo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"gjr_norm"</span>, <span class="st">"gjr_std"</span>, <span class="st">"gjr_ged"</span>) <span class="sc">~</span> <span class="st">"3. GJR-GARCH (gjrGARCH)"</span>,</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>        <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Otro"</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(volatilidades_movil_long, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Volatilidad, <span class="at">color =</span> Metodo)) <span class="sc">+</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Volatilidades en ventana móvil de 250 días (Separado por Método)"</span>, </span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">"Fecha"</span>, </span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Volatilidad"</span>, </span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"Método"</span>) <span class="sc">+</span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Grupo, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="backtest-prueba-de-kupiec" class="level1">
+<h1>Backtest (prueba de Kupiec)</h1>
+<p>Para finaizar, se realizará un backtest para evaluar el desempeño de las estimaciones de volatilidad en la predicción del VaR, esto mediante la prueba de Kupiec.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>PL <span class="ot">&lt;-</span> monto <span class="sc">*</span> rendimientos_decimal</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>columnas_sigma <span class="ot">&lt;-</span> <span class="fu">colnames</span>(volatilidades_movil)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>confianzas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.98</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>resultados_backtest <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (conf <span class="cf">in</span> confianzas){</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  alpha <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> conf</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(col <span class="cf">in</span> columnas_sigma){</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    sigma_col <span class="ot">&lt;-</span> volatilidades_movil[[col]]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    VaR_estimado <span class="ot">&lt;-</span> <span class="fu">VaR</span>(monto, sigma_col, conf, <span class="st">"norm"</span>, <span class="dv">1</span>, <span class="fu">length</span>(<span class="fu">na.omit</span>(rendimientos_decimal)))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    resultados_kupiec <span class="ot">&lt;-</span> <span class="fu">KupiecBackTest</span>(PL, VaR_estimado, alpha)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    resultados_backtest <span class="ot">&lt;-</span> <span class="fu">rbind</span>(resultados_backtest, <span class="fu">data.frame</span>(</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">Metodo =</span> col,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">Confianza =</span> conf,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">excepciones =</span> resultados_kupiec<span class="sc">$</span>Statistic,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>      valor_crítico <span class="ot">=</span> resultados_kupiec<span class="sc">$</span>criticalValue,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">rango_min =</span> resultados_kupiec<span class="sc">$</span>twoSidedCriticalValue[<span class="dv">1</span>],</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">rango_max =</span> resultados_kupiec<span class="sc">$</span>twoSidedCriticalValue[<span class="dv">2</span>],</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">valor_esperado =</span> resultados_kupiec<span class="sc">$</span>expectedExceeds,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">p_value =</span> resultados_kupiec<span class="sc">$</span>pValue</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 95% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+[1] "Estimating VaR..."
+[1] "Estimating with normpdf VaR at 98% of confidence..."
+</code></pre>
+</div>
+</div>
+<p>Resultados del backtest</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(knitr<span class="sc">::</span><span class="fu">is_html_output</span>()){</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>(resultados_backtest)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(resultados_backtest)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-9c40dc5b422f28d1eb4c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9c40dc5b422f28d1eb4c">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18"],["fija","ews95","ews98","garch_norm","garch_std","garch_ged","gjr_norm","gjr_std","gjr_ged","fija","ews95","ews98","garch_norm","garch_std","garch_ged","gjr_norm","gjr_std","gjr_ged"],[0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.95,0.98,0.98,0.98,0.98,0.98,0.98,0.98,0.98,0.98],[57,112,110,59,58,58,52,49,51,32,79,75,24,24,24,21,21,21],[62,62,62,62,62,62,62,60,62,30,30,30,30,30,30,30,29,30],[37,37,37,37,37,37,37,36,37,11,11,11,11,10,11,11,10,11],[64,64,64,64,64,64,64,62,64,31,31,31,31,31,31,31,30,31],[50,50,50,50,50,50,50,49,50,20,20,20,20,20,20,20,19,20],[0.1525152928571196,3.108624468950438e-15,1.754152378907747e-14,0.09658258595806901,0.1134092176369081,0.1222397909576334,0.3733137529232227,0.4329315532744975,0.428548980518817,0.004862308054014219,0,0,0.1635955354076715,0.1567582148529905,0.1635955354076715,0.3691606410859845,0.3051282736879745,0.3691606410859845]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Metodo<\/th>\n      <th>Confianza<\/th>\n      <th>excepciones<\/th>\n      <th>valor_crítico<\/th>\n      <th>rango_min<\/th>\n      <th>rango_max<\/th>\n      <th>valor_esperado<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Metodo","targets":1},{"name":"Confianza","targets":2},{"name":"excepciones","targets":3},{"name":"valor_crítico","targets":4},{"name":"rango_min","targets":5},{"name":"rango_max","targets":6},{"name":"valor_esperado","targets":7},{"name":"p_value","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Como podemos observar en la tabla anterior, los métodos de suavizamiento exponencial fallan en la prueba de Kupiec, y la volatilidad fija funciona al 95%, pero no al 98%. Los modelos GARCH pasan todas las pruebas con todas las distribuciones, lo que podría justificar su uso incluso con su mayor complejidad computacional.</p>
+</section>
+<section id="conclusiones" class="level1">
+<h1>Conclusiones</h1>
+<p>En este ensayo se analizó, usando distintos métodos, la estimación de volatilidades para el EFT QQQ en pesos mexicanos. Se observaron las ventajas y desventajas de cada método, así como su desempeño en una prueba de backtest mediante la prueba de Kupiec. Como era de esperarse, los modelos GARCH demostraron ser los mejores para capturar la volatilidad dinámica; sin embargo, si bien falló una de las pruebas, es sorprendente que la volatilidad fija, siendo el método más simple, funciona correctamente en una y se aproxima bastante en la otra, lo que a pesar de sus limitaciones lo hace una opción para análisis rápidos o cuando se sospecha poca variabilidad.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
